@@ -372,8 +372,8 @@ void Variable::update(const sf::Vector2i& previous_mouse_position, const sf::Vec
 			grabbed = false;
 		}
 
-		if (grabbed and !((mouse_position.x < line.rectangle.getPosition().x - line.rectangle.getSize().x / 2. and circle.getPosition().x == line.rectangle.getPosition().x - line.rectangle.getSize().x / 2.) or
-			             (mouse_position.x > line.rectangle.getPosition().x + line.rectangle.getSize().x / 2. and circle.getPosition().x == line.rectangle.getPosition().x + line.rectangle.getSize().x / 2.)))
+		if (grabbed and !((mouse_position.x < line.rectangle.getPosition().x - line.rectangle.getSize().x / 2. and circle.getPosition().x <= line.rectangle.getPosition().x - line.rectangle.getSize().x / 2. + 0.1) or
+			(mouse_position.x > line.rectangle.getPosition().x + line.rectangle.getSize().x / 2. and circle.getPosition().x >= line.rectangle.getPosition().x + line.rectangle.getSize().x / 2. - 0.1)))
 		{
 			circle.move((double)mouse_position.x - (double)previous_mouse_position.x, 0.);
 
@@ -382,7 +382,7 @@ void Variable::update(const sf::Vector2i& previous_mouse_position, const sf::Vec
 
 			if (circle.getPosition().x < line.rectangle.getPosition().x - line.rectangle.getSize().x / 2.)
 				circle.setPosition(line.rectangle.getPosition().x - line.rectangle.getSize().x / 2., circle.getPosition().y);
-			
+
 			if (type == Int)
 			{
 				int_value = get_value_from_circle();
@@ -414,7 +414,7 @@ void Variable::update(const sf::Vector2i& previous_mouse_position, const sf::Vec
 void Variable::draw(sf::RenderWindow& window)
 {
 	window.draw(name);
-	
+
 	if (type == Bool)
 		box.draw(window, checked);
 
@@ -436,6 +436,8 @@ void Variable::draw(sf::RenderWindow& window)
 
 Menu::Menu()
 {
+	width = 0;
+	height = 0;
 	variables.clear();
 	grabbed = false;
 	grab_forbiden = false;
@@ -448,6 +450,8 @@ Menu::Menu()
 
 Menu::Menu(const Menu& menu)
 {
+	width = menu.width;
+	height = menu.height;
 	variables = menu.variables;
 	background = menu.background;
 	texts_font = menu.texts_font;
@@ -463,8 +467,11 @@ Menu::Menu(const Menu& menu)
 
 // Construit un menu à partir de ces paramètres
 
-Menu::Menu(const std::vector<Variable>& variables, const sf::Color& background)
+Menu::Menu(const std::vector<Variable>& variables, const sf::Color& background, int width, int height)
 {
+	this->width = width;
+	this->height = height;
+
 	this->variables = variables;
 	this->background = background;
 
@@ -475,15 +482,15 @@ Menu::Menu(const std::vector<Variable>& variables, const sf::Color& background)
 
 // Initialise le nom des variables
 
-void Menu::init_names(int name_size, const double& names_position, const sf::Color& name_color, const sf::RenderWindow& window, const double& y_edges)
+void Menu::init_names(int name_size, const double& names_position, const sf::Color& name_color, const double& y_edges)
 {
 	for (int i = 0; i < variables.size(); i++)
 	{
-		variables[i].name.setCharacterSize(name_size);
+		variables[i].name.setCharacterSize(resize(name_size, width));
 		variables[i].name.setFont(texts_font);
 		variables[i].name.setFillColor(name_color);
-		variables[i].name.setOrigin(variables[i].name.getLocalBounds().width, name_size / 1.35);
-		variables[i].name.setPosition(names_position, (((window.getSize().y - (2. * y_edges)) / (variables.size() - 1)) * i) + y_edges);
+		variables[i].name.setOrigin(variables[i].name.getLocalBounds().width, resize(name_size, width) / 1.35);
+		variables[i].name.setPosition(resize(names_position, width), (((height - (2. * resize(y_edges, width))) / (variables.size() - 1)) * i) + resize(y_edges, width));
 	}
 }
 
@@ -496,7 +503,7 @@ void Menu::init_lines(const double& lines_sizes, const double& lines_widths, con
 	for (int i = 0; i < variables.size(); i++)
 	{
 		if (variables[i].type != Bool)
-			variables[i].line = Line(lines_sizes, lines_widths, lines_positions, variables[i].name.getPosition().y, line_color);
+			variables[i].line = Line(resize(lines_sizes, width), resize(lines_widths, width), resize(lines_positions, width), variables[i].name.getPosition().y, line_color);
 	}
 }
 
@@ -510,8 +517,8 @@ void Menu::init_circles(const double& circles_radius, const sf::Color& circle_co
 	{
 		if (variables[i].type != Bool)
 		{
-			variables[i].circle = sf::CircleShape(circles_radius, 50);
-			variables[i].circle.setOrigin(circles_radius, circles_radius);
+			variables[i].circle = sf::CircleShape(resize(circles_radius, width), 50);
+			variables[i].circle.setOrigin(resize(circles_radius, width), resize(circles_radius, width));
 			variables[i].circle.setPosition(variables[i].get_circle_position());
 			variables[i].circle.setFillColor(circle_color);
 		}
@@ -528,11 +535,11 @@ void Menu::init_values(int value_size, const double& values_position, const sf::
 	{
 		if (variables[i].type != Bool)
 		{
-			variables[i].value.setCharacterSize(value_size);
+			variables[i].value.setCharacterSize(resize(value_size, width));
 			variables[i].value.setFont(texts_font);
 			variables[i].value.setFillColor(value_color);
 			variables[i].value.setOrigin(variables[i].value.getLocalBounds().width / 2., variables[i].value.getLocalBounds().height);
-			variables[i].value.setPosition(variables[i].circle.getPosition().x, variables[i].circle.getPosition().y - values_position);
+			variables[i].value.setPosition(variables[i].circle.getPosition().x, variables[i].circle.getPosition().y - resize(values_position, width));
 		}
 	}
 }
@@ -547,7 +554,7 @@ void Menu::init_boxes(const double& boxes_sizes, const double& boxes_position, c
 	{
 		if (variables[i].type == Bool)
 		{
-			variables[i].box = Box(boxes_sizes, boxes_sizes / 4., boxes_position, variables[i].name.getPosition().y, boxes_color);
+			variables[i].box = Box(resize(boxes_sizes, width), resize(boxes_sizes, width) / 4., resize(boxes_position, width), variables[i].name.getPosition().y, boxes_color);
 			variables[i].checked = variables[i].bool_value;
 		}
 	}
@@ -566,9 +573,9 @@ void Menu::init_start(const double& start_size, const double& start_x_position, 
 	start_texture_grabbed.setSmooth(true);
 
 	start_button.setTexture(&start_texture);
-	start_button.setSize(sf::Vector2f(start_size, start_size));
-	start_button.setOrigin(start_size / 2., start_size / 2.);
-	start_button.setPosition(start_x_position, start_y_position);
+	start_button.setSize(sf::Vector2f(resize(start_size, width), resize(start_size, width)));
+	start_button.setOrigin(resize(start_size, width) / 2., resize(start_size, width) / 2.);
+	start_button.setPosition(resize(start_x_position, width), resize(start_y_position, width));
 	start_button.setFillColor(start_color);
 }
 
@@ -578,6 +585,8 @@ void Menu::init_start(const double& start_size, const double& start_x_position, 
 
 void Menu::operator=(const Menu& menu)
 {
+	width = menu.width;
+	height = menu.height;
 	variables = menu.variables;
 	background = menu.background;
 	start_texture = menu.start_texture;
@@ -624,7 +633,7 @@ void Menu::update(const sf::Vector2i& previous_mouse_position, const sf::Vector2
 		else
 		{
 			if ((variables[i].grabbed or variables[i].is_in(sf::Vector2f(mouse_position))) and !variables[i].grab_forbiden)
-				cursor_type = resize;
+				cursor_type = resizing;
 		}
 	}
 
@@ -665,7 +674,7 @@ void Menu::update(const sf::Vector2i& previous_mouse_position, const sf::Vector2
 		if (cursor_type == hand)
 			cursor.loadFromSystem(sf::Cursor::Hand);
 
-		if (cursor_type == resize)
+		if (cursor_type == resizing)
 			cursor.loadFromSystem(sf::Cursor::SizeHorizontal);
 
 		window.setMouseCursor(cursor);
@@ -719,7 +728,7 @@ Restart::Restart(const Restart& restart)
 
 // Construit un bouton recommencer à partir de ces paramètres
 
-Restart::Restart(const double& start_size, const double& start_x_position, const double& start_y_position, const sf::Color& start_color)
+Restart::Restart(const double& start_size, const double& start_x_position, const double& start_y_position, const sf::Color& start_color, int width, int height)
 {
 	grabbed = false;
 	grab_forbiden = false;
@@ -731,9 +740,9 @@ Restart::Restart(const double& start_size, const double& start_x_position, const
 	texture_grabbed.setSmooth(true);
 
 	button.setTexture(&texture);
-	button.setSize(sf::Vector2f(start_size, start_size));
-	button.setOrigin(start_size / 2., start_size / 2.);
-	button.setPosition(start_x_position, start_y_position);
+	button.setSize(sf::Vector2f(resize(start_size, width), resize(start_size, width)));
+	button.setOrigin(resize(start_size, width) / 2., resize(start_size, width) / 2.);
+	button.setPosition(resize(start_x_position, width), resize(start_y_position, width));
 	button.setFillColor(start_color);
 }
 
@@ -809,7 +818,7 @@ bool Restart::update(const sf::Vector2i& mouse_position, bool left_click, sf::Cu
 		if (cursor_type == hand)
 			cursor.loadFromSystem(sf::Cursor::Hand);
 
-		if (cursor_type == resize)
+		if (cursor_type == resizing)
 			cursor.loadFromSystem(sf::Cursor::SizeHorizontal);
 
 		window.setMouseCursor(cursor);
@@ -865,4 +874,13 @@ std::string double_to_string(const double& value, int precision, bool percent)
 	}
 
 	return text;
+}
+
+
+
+// Permet de gérer les différentes tailles d'écrans
+
+double resize(double value, double width)
+{
+	return (value / 1920.) * width;
 }

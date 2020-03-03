@@ -63,7 +63,7 @@ enum Variable_type { Bool, Int, Double };
 
 // Types de curseurs
 
-enum Cursor_type { arrow, hand, resize };
+enum Cursor_type { arrow, hand, resizing };
 
 
 
@@ -115,6 +115,8 @@ class Menu
 
 public:
 
+	int width;
+	int height;
 	std::vector<Variable> variables;
 	sf::Color background;
 	sf::Font texts_font;
@@ -127,8 +129,8 @@ public:
 
 	Menu();
 	Menu(const Menu& menu);
-	Menu(const std::vector<Variable>& variables, const sf::Color& background);
-	void init_names(int name_size, const double& names_position, const sf::Color& name_color, const sf::RenderWindow& window, const double& y_edges);
+	Menu(const std::vector<Variable>& variables, const sf::Color& background, int width, int height);
+	void init_names(int name_size, const double& names_position, const sf::Color& name_color, const double& y_edges);
 	void init_lines(const double& lines_sizes, const double& lines_widths, const double& lines_positions, const sf::Color& line_color);
 	void init_circles(const double& circles_radius, const sf::Color& circle_color);
 	void init_values(int value_size, const double& values_position, const sf::Color& value_color);
@@ -149,7 +151,7 @@ public:
 class Restart
 {
 
-public :
+public:
 
 	sf::RectangleShape button;
 	sf::Texture texture;
@@ -159,7 +161,7 @@ public :
 
 	Restart();
 	Restart(const Restart& restart);
-	Restart(const double& start_size, const double& start_x_position, const double& start_y_position, const sf::Color& start_color);
+	Restart(const double& start_size, const double& start_x_position, const double& start_y_position, const sf::Color& start_color, int width, int height);
 
 	void operator=(const Restart& restart);
 
@@ -169,5 +171,6 @@ public :
 };
 
 std::string double_to_string(const double& value, int precision, bool percent);
+double resize(double value, double width);
 
 #endif

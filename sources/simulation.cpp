@@ -19,7 +19,7 @@ Simulation::Simulation()
 
 Simulation::Simulation(const Menu& menu)
 {
-	texture.create(WIDTH, HEIGHT);
+	texture.create(menu.width, menu.height);
 	texture.clear(sf::Color(20, 20, 200));
 	texture.display();
 	sprite = sf::Sprite(texture.getTexture());
@@ -32,16 +32,16 @@ Simulation::Simulation(const Menu& menu)
 	nb_ratio = 0;
 
 	text_total.setString("Nombre de cas :");
-	text_total.setCharacterSize(50);
+	text_total.setCharacterSize(resize(50, menu.width));
 	text_total.setFont(menu.texts_font);
 	text_total.setFillColor(sf::Color::White);
-	text_total.setOrigin(text_total.getLocalBounds().width / 2., 50. / 1.35);
-	text_total.setPosition(600., 200.);
+	text_total.setOrigin(text_total.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_total.setPosition(resize(600., menu.width), resize(200., menu.width));
 
 	nb_text_total = text_total;
 	nb_text_total.setString("0");
-	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_total.setPosition(600., 300.);
+	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_total.setPosition(resize(600., menu.width), resize(300., menu.width));
 
 	text_denom = text_total;
 
@@ -51,35 +51,35 @@ Simulation::Simulation(const Menu& menu)
 	else
 		text_denom.setString("L'un est un garçon :");
 
-	text_denom.setOrigin(text_denom.getLocalBounds().width / 2., 50. / 1.35);
-	text_denom.setPosition(600., 500.);
+	text_denom.setOrigin(text_denom.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_denom.setPosition(resize(600., menu.width), resize(500., menu.width));
 
 	nb_text_denom = text_total;
 	nb_text_denom.setString("0");
-	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_denom.setPosition(600., 600.);
+	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_denom.setPosition(resize(600., menu.width), resize(600., menu.width));
 
 	text_num = text_total;
 	text_num.setString("L'autre est un garçon :");
-	text_num.setOrigin(text_num.getLocalBounds().width / 2., 50. / 1.35);
-	text_num.setPosition(600., 800.);
+	text_num.setOrigin(text_num.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_num.setPosition(resize(600., menu.width), resize(800., menu.width));
 
 	nb_text_num = text_total;
 	nb_text_num.setString("0");
-	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_num.setPosition(600., 900.);
+	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_num.setPosition(resize(600., menu.width), resize(900., menu.width));
 
 	text_ratio = text_total;
 	text_ratio.setString("Probabilité :");
-	text_ratio.setOrigin(text_ratio.getLocalBounds().width / 2., 50. / 1.35);
-	text_ratio.setPosition(1350., 450.);
+	text_ratio.setOrigin(text_ratio.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_ratio.setPosition(resize(1350., menu.width), resize(450., menu.width));
 
 	nb_text_ratio = text_total;
 	nb_text_ratio.setString("0");
-	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_ratio.setPosition(1350., 550.);
+	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_ratio.setPosition(resize(1350., menu.width), resize(550., menu.width));
 
-	draw_simulation();
+	draw_simulation(menu);
 }
 
 
@@ -88,7 +88,7 @@ Simulation::Simulation(const Menu& menu)
 
 void Simulation::restart(const Menu& menu)
 {
-	texture.create(WIDTH, HEIGHT);
+	texture.create(menu.width, menu.height);
 	texture.clear(sf::Color(20, 20, 200));
 	texture.display();
 	sprite = sf::Sprite(texture.getTexture());
@@ -101,16 +101,16 @@ void Simulation::restart(const Menu& menu)
 	nb_ratio = 0;
 
 	text_total.setString("Nombre de cas :");
-	text_total.setCharacterSize(50);
+	text_total.setCharacterSize(resize(50, menu.width));
 	text_total.setFont(menu.texts_font);
 	text_total.setFillColor(sf::Color::White);
-	text_total.setOrigin(text_total.getLocalBounds().width / 2., 50. / 1.35);
-	text_total.setPosition(600., 200.);
+	text_total.setOrigin(text_total.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_total.setPosition(resize(600., menu.width), resize(200., menu.width));
 
 	nb_text_total = text_total;
 	nb_text_total.setString("0");
-	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_total.setPosition(600., 300.);
+	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_total.setPosition(resize(600., menu.width), resize(300., menu.width));
 
 	text_denom = text_total;
 
@@ -120,42 +120,42 @@ void Simulation::restart(const Menu& menu)
 	else
 		text_denom.setString("L'un est un garçon :");
 
-	text_denom.setOrigin(text_denom.getLocalBounds().width / 2., 50. / 1.35);
-	text_denom.setPosition(600., 500.);
+	text_denom.setOrigin(text_denom.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_denom.setPosition(resize(600., menu.width), resize(500., menu.width));
 
 	nb_text_denom = text_total;
 	nb_text_denom.setString("0");
-	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_denom.setPosition(600., 600.);
+	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_denom.setPosition(resize(600., menu.width), resize(600., menu.width));
 
 	text_num = text_total;
 	text_num.setString("L'autre est un garçon :");
-	text_num.setOrigin(text_num.getLocalBounds().width / 2., 50. / 1.35);
-	text_num.setPosition(600., 800.);
+	text_num.setOrigin(text_num.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_num.setPosition(resize(600., menu.width), resize(800., menu.width));
 
 	nb_text_num = text_total;
 	nb_text_num.setString("0");
-	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_num.setPosition(600., 900.);
+	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_num.setPosition(resize(600., menu.width), resize(900., menu.width));
 
 	text_ratio = text_total;
 	text_ratio.setString("Probabilité :");
-	text_ratio.setOrigin(text_ratio.getLocalBounds().width / 2., 50. / 1.35);
-	text_ratio.setPosition(1350., 450.);
+	text_ratio.setOrigin(text_ratio.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	text_ratio.setPosition(resize(1350., menu.width), resize(450., menu.width));
 
 	nb_text_ratio = text_total;
 	nb_text_ratio.setString("0");
-	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_ratio.setPosition(1350., 550.);
+	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_ratio.setPosition(resize(1350., menu.width), resize(550., menu.width));
 
-	draw_simulation();
+	draw_simulation(menu);
 }
 
 
 
 // Affiche la simulation
 
-void Simulation::draw_simulation()
+void Simulation::draw_simulation(const Menu& menu)
 {
 	texture.draw(text_total);
 	texture.draw(text_denom);
@@ -167,10 +167,10 @@ void Simulation::draw_simulation()
 	nb_text_num.setString(std::to_string(nb_num));
 	nb_text_ratio.setString(std::to_string(nb_ratio));
 
-	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., 50. / 1.35);
-	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., 50. / 1.35);
+	nb_text_total.setOrigin(nb_text_total.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_denom.setOrigin(nb_text_denom.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_num.setOrigin(nb_text_num.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
+	nb_text_ratio.setOrigin(nb_text_ratio.getLocalBounds().width / 2., resize(50. / 1.35, menu.width));
 
 	texture.draw(nb_text_total);
 	texture.draw(nb_text_denom);
@@ -241,11 +241,11 @@ void Simulation::update()
 
 // Affiche la simulation
 
-void Simulation::draw(sf::RenderWindow& window)
+void Simulation::draw(sf::RenderWindow& window, const Menu& menu)
 {
 	texture.clear(sf::Color(20, 20, 200));
 
-	draw_simulation();
+	draw_simulation(menu);
 
 	texture.display();
 	sprite = sf::Sprite(texture.getTexture());

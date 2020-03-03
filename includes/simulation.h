@@ -3,9 +3,6 @@
 #include "menu.h"
 #include <vector>
 
-#define WIDTH	1920 // Largeur de l'écran
-#define HEIGHT	1080 // Hauteeur de l'écran
-
 
 
 // Classe définissant la simulation
@@ -35,11 +32,11 @@ public:
 	Simulation(const Menu& menu);
 
 	void restart(const Menu& menu);
-	void draw_simulation();
+	void draw_simulation(const Menu& menu);
 	void update_without_day();
 	void update_with_day();
 	void update();
-	void draw(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window, const Menu& menu);
 };
 
 #endif
