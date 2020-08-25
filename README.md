@@ -18,6 +18,14 @@ Ce dépôt contient le code source d'une simulation de l'énigme des deux enfant
 
 <br/>
 
+# Vidéo
+
+Voici une vidéo expliquant le fonctionnement de l'algorithme :
+
+[**► SIMULER LES PROBLÈMES DE DIMENSION DÉBAT 💬💻**](https://www.youtube.com/watch?v=eWILBNcZpMY)
+
+<br/>
+
 # Utilisation
 
 Le programme comporte un menu intégré pour changer les différents paramètres de la simulation, si vous souhaitez uniquement tester la simulation, vous pouvez consulter les [**Releases**](https://github.com/angeluriot/Boy_or_girl_paradox_simulation/releases).
