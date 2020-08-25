@@ -20,7 +20,7 @@ Ce dépôt contient le code source d'une simulation de l'énigme des deux enfant
 
 # Utilisation
 
-Le programme comporte un menu intégré pour changer les différents paramètres de la simulation, si vous souhaitez uniquement tester la simulation, vous pouvez consulter les [Releases](https://github.com/angeluriot/Boy_or_girl_paradox_simulation/releases).
+Le programme comporte un menu intégré pour changer les différents paramètres de la simulation, si vous souhaitez uniquement tester la simulation, vous pouvez consulter les [**Releases**](https://github.com/angeluriot/Boy_or_girl_paradox_simulation/releases).
 
 <br/>
 
@@ -32,7 +32,7 @@ Le programme comporte un menu intégré pour changer les différents paramètres
 
 # Tests
 
-Voici un test avec les paramètres présentés dans l'image de la partie [Utilisation](#utilisation) :
+Voici un test avec les paramètres présentés dans l'image de la partie [**Utilisation**](#utilisation) :
 
 <br/>
 
@@ -44,4 +44,4 @@ Voici un test avec les paramètres présentés dans l'image de la partie [Utilis
 
 # Crédits
 
-* [Angel Uriot](https://github.com/angeluriot) : Créateur du projet.
+* [**Angel Uriot**](https://github.com/angeluriot) : Créateur du projet.
